@@ -1,4 +1,4 @@
-use std::fs;
+use std::{collections::HashSet, fs};
 
 fn get_points(c: &char) -> i32 {
     if c.is_uppercase() {
@@ -29,10 +29,29 @@ fn part_one(contents: &str) -> i32 {
         .sum()
 }
 
+fn part_two(contents: &str) -> i32 {
+    let lines_vec: Vec<&str> = contents.lines().collect();
+    let mut sum = 0;
+    for (idx, _) in contents.lines().enumerate().step_by(3) {
+        let set_first: HashSet<char> = HashSet::from_iter(lines_vec[idx].chars());
+        let set_second: HashSet<char> = HashSet::from_iter(lines_vec[idx + 1].chars());
+        let set_third: HashSet<char> = HashSet::from_iter(lines_vec[idx].chars());
+        let common_char = set_first
+            .iter()
+            .find(|x| set_second.contains(x) && set_third.contains(x));
+        let points = match common_char {
+            Some(v) => get_points(v),
+            None => 0,
+        };
+        sum += points;
+    }
+    sum
+}
+
 fn main() {
     let contents = fs::read_to_string("./input.txt").expect("Error while reading file");
-    let result = part_one(&contents);
+    // let result = part_one(&contents);
+    let result = part_two(&contents);
 
-    // println!("{:?}", get_points(&'Z'));
-    println!("{:?}", result);
+    println!("{result}");
 }
