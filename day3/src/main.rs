@@ -35,7 +35,7 @@ fn part_two(contents: &str) -> i32 {
     for (idx, _) in contents.lines().enumerate().step_by(3) {
         let set_first: HashSet<char> = HashSet::from_iter(lines_vec[idx].chars());
         let set_second: HashSet<char> = HashSet::from_iter(lines_vec[idx + 1].chars());
-        let set_third: HashSet<char> = HashSet::from_iter(lines_vec[idx].chars());
+        let set_third: HashSet<char> = HashSet::from_iter(lines_vec[idx + 2].chars());
         let common_char = set_first
             .iter()
             .find(|x| set_second.contains(x) && set_third.contains(x));
